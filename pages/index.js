@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { nftContractAddress } from '../config.js'
 import { ethers } from 'ethers'
+// import WalletConnectProvider from '@walletconnect/web3-provider'
+import Web3Modal from "web3modal"
+
 
 // import axios from 'axios'
 
@@ -39,35 +42,56 @@ const mint = () => {
 
 	// Calls Metamask to connect wallet on clicking Connect Wallet button
 	const connectWallet = async () => {
+		const providerOptions = {
+			/* See Provider Options Section */
+		};
+		console.log("Connecting through walletConnect!");
 		
-		try {
-			const { ethereum } = window
+		const web3Modal = new Web3Modal({
+			network: "mainnet", // optional
+			cacheProvider: true, // optional
+			providerOptions // required
+		});
+		
+		const instance = await web3Modal.connect();
+		
+		const provider = new ethers.providers.Web3Provider(instance);
+		const signer = provider.getSigner();
 
-			if (!ethereum) {
-				console.log('Metamask not detected')
-				return
-			}
-			let chainId = await ethereum.request({ method: 'eth_chainId' })
-			console.log('Connected to chain:' + chainId)
-
-			const rinkebyChainId = '0x1'
-
-			const devChainId = 1
-			const localhostChainId = `0x${Number(devChainId).toString(16)}`
-
-			if (chainId !== rinkebyChainId && chainId !== localhostChainId) {
-				alert('You are not connected to the Rinkeby Testnet!')
-				return
-			}
-
-			const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
-
-			console.log('Found account', accounts[0])
+		const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+		console.log('Found account', accounts[0])
 			setCurrentAccount(accounts[0])
-		} catch (error) {
-			console.log('Error connecting to metamask', error)
-		}
 	}
+	// const connectWallet = async () => {
+		
+	// 	try {
+	// 		const { ethereum } = window
+
+	// 		if (!ethereum) {
+	// 			console.log('Metamask not detected')
+	// 			return
+	// 		}
+	// 		let chainId = await ethereum.request({ method: 'eth_chainId' })
+	// 		console.log('Connected to chain:' + chainId)
+
+	// 		const rinkebyChainId = '0x1'
+
+	// 		const devChainId = 1
+	// 		const localhostChainId = `0x${Number(devChainId).toString(16)}`
+
+	// 		if (chainId !== rinkebyChainId && chainId !== localhostChainId) {
+	// 			alert('You are not connected to the Rinkeby Testnet!')
+	// 			return
+	// 		}
+
+	// 		const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+
+	// 		console.log('Found account', accounts[0])
+	// 		setCurrentAccount(accounts[0])
+	// 	} catch (error) {
+	// 		console.log('Error connecting to metamask', error)
+	// 	}
+	// }
 
 	// Checks if wallet is connected to the correct network
 	const checkCorrectNetwork = async () => {
@@ -284,6 +308,7 @@ const mint = () => {
             )
         }
         </div>
+				
 			{/* {loadingState === 0 ? (
 				miningStatus === 0 ? (
 					txError === null ? (
