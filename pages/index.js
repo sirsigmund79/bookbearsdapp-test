@@ -50,9 +50,9 @@ const mint = () => {
 			let chainId = await ethereum.request({ method: 'eth_chainId' })
 			console.log('Connected to chain:' + chainId)
 
-			const rinkebyChainId = '0x4'
+			const rinkebyChainId = '0x1'
 
-			const devChainId = 1337
+			const devChainId = 1
 			const localhostChainId = `0x${Number(devChainId).toString(16)}`
 
 			if (chainId !== rinkebyChainId && chainId !== localhostChainId) {
@@ -75,9 +75,9 @@ const mint = () => {
 		let chainId = await ethereum.request({ method: 'eth_chainId' })
 		console.log('Connected to chain:' + chainId)
 
-		const rinkebyChainId = '0x4'
+		const rinkebyChainId = '0x1'
 
-		const devChainId = 1337
+		const devChainId = 1
 		const localhostChainId = `0x${Number(devChainId).toString(16)}`
 
 		if (chainId !== rinkebyChainId && chainId !== localhostChainId) {
@@ -118,7 +118,7 @@ const mint = () => {
             // gasPrice: ethers.utils.parseUnits('9.0', 'gwei'),
 
             // The amount to send with the transaction (i.e. msg.value)
-            value: ethers.utils.parseEther('0.0008'),
+            value: ethers.utils.parseEther('0.15'),
           }
 
           let nftTx = await nftContract.mint(currentAccount, 1, overrides)
@@ -134,7 +134,7 @@ const mint = () => {
           let event = tx.events[0]
           setMiningStatus("Complete")
           console.log(
-            `Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTx.hash}`
+            `Mined, see transaction: https://etherscan.io/tx/${nftTx.hash}`
           )
       } else {
         console.log("Ethereum object doesn't exist!")
@@ -230,6 +230,7 @@ const mint = () => {
 			<h2 className='text-3xl font-bold mb-20 mt-12'>
 				Mint your Bookbear NFT!
 			</h2>
+			
 			{currentAccount === '' ? (
 				<button
 					className='text-2xl font-bold py-3 px-12 bg-[#4ADDB4] shadow-lg shadow-[#d9d9d9] rounded-lg mb-10 hover:scale-105 transition duration-500 ease-in-out'
@@ -244,18 +245,20 @@ const mint = () => {
 				>
 					Mint
 				</button>
+				
 			) : (
 				<div className='flex flex-col justify-center items-center mb-20 font-bold text-2xl gap-y-3'>
 					<div>----------------------------------------</div>
-					<div>Please connect to the Rinkeby Testnet</div>
+					<div>Please connect to the Ethereum Mainnet</div>
 					<div>and reload the page</div>
 					<div>----------------------------------------</div>
 				</div>
 			)}
+			<p>Cost: 0.15 ETH</p>
 
 			<div className='text-xl font-semibold mb-20 mt-4'>
 				<a
-					href={`https://testnets.opensea.io/collection/bookbears-test-contract-q1ay3xfs3o`}
+					href={`https://opensea.io/collection/bookbeargang`}
 					target='_blank'
 				>
 					<span className='hover:underline hover:underline-offset-8 '>
@@ -272,7 +275,7 @@ const mint = () => {
               <div><p>Your Bookbear is minting!</p></div>
             ) : (
               <div>
-                <p>Success! Your Bookbear has minted. Check OpenSea on month, day to see what you got!</p>
+                <p>Success! Your Bookbear has minted. Check OpenSea to see what you got!</p>
                 <p><i>Want to mint another?</i></p>
               </div>
             )
@@ -310,6 +313,10 @@ const mint = () => {
 
 				</div>
 			)} */}
+			<div>
+				<p classname="hover:underline"><i>Collection by <a href="https://twitter.com/jenna_koppinger">Jenna Koppinger</a></i></p>
+				<p classname="hover:underline"><i>Code by <a href="https://www.linkedin.com/in/parkernolan/">Parker Nolan</a></i></p>
+			</div>
 		</div>
 	)
 }
