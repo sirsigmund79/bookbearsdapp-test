@@ -10,7 +10,6 @@ import NFT from '../utils/NFT.json';
 // declare var window: any
 
 
-
 const mint = () => {
 	// const [mintedNFT, setMintedNFT] = useState(null)
 	const [miningStatus, setMiningStatus] = useState("")
@@ -40,6 +39,7 @@ const mint = () => {
 
 	// Calls Metamask to connect wallet on clicking Connect Wallet button
 	const connectWallet = async () => {
+		
 		try {
 			const { ethereum } = window
 
